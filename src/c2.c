@@ -136,6 +136,7 @@ struct _c2_l {
 		C2_L_TWINDOW,
 		C2_L_TATOM,
 		C2_L_TDRAWABLE,
+                C2_L_TMOTIFHINTS,
 	} type;
 	int format;
 	enum {
@@ -1334,6 +1335,7 @@ static xcb_atom_t c2_get_atom_type(const c2_l_t *pleaf) {
 	case C2_L_TSTRING: return XCB_ATOM_STRING;
 	case C2_L_TATOM: return XCB_ATOM_ATOM;
 	case C2_L_TDRAWABLE: return XCB_ATOM_DRAWABLE;
+	case C2_L_TMOTIFHINTS: return XCB_ATOM_CARDINAL;
 	default: assert(0); break;
 	}
 	unreachable();
