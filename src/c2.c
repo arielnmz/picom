@@ -136,7 +136,7 @@ struct _c2_l {
 		C2_L_TWINDOW,
 		C2_L_TATOM,
 		C2_L_TDRAWABLE,
-                C2_L_TMOTIFHINTS,
+    C2_L_TMOTIFHINTS,
 	} type;
 	int format;
 	enum {
