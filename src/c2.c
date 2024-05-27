@@ -136,6 +136,7 @@ struct _c2_l {
 		C2_L_TWINDOW,
 		C2_L_TATOM,
 		C2_L_TDRAWABLE,
+    C2_L_TRAW,
 	} type;
 	int format;
 	enum {
@@ -694,6 +695,7 @@ static int c2_parse_target(const char *pattern, int offset, c2_ptr_t *presult) {
 		case 'c': type = C2_L_TCARDINAL; break;
 		case 's': type = C2_L_TSTRING; break;
 		case 'a': type = C2_L_TATOM; break;
+		case 'r': type = C2_L_TRAW; break;
 		default: c2_error("Invalid type character.");
 		}
 
@@ -718,6 +720,7 @@ static int c2_parse_target(const char *pattern, int offset, c2_ptr_t *presult) {
 			switch (pleaf->type) {
 			case C2_L_TWINDOW:
 			case C2_L_TDRAWABLE:
+			case C2_L_TRAW:
 			case C2_L_TATOM: pleaf->format = 32; break;
 			case C2_L_TSTRING: pleaf->format = 8; break;
 			default: break;
@@ -946,7 +949,7 @@ static int c2_parse_pattern(const char *pattern, int offset, c2_ptr_t *presult) 
 	if (!(((C2_L_TSTRING == pleaf->type || C2_L_TATOM == pleaf->type) &&
 	       C2_L_PTSTRING == pleaf->ptntype) ||
 	      ((C2_L_TCARDINAL == pleaf->type || C2_L_TWINDOW == pleaf->type ||
-	        C2_L_TDRAWABLE == pleaf->type) &&
+	        C2_L_TDRAWABLE == pleaf->type || C2_L_TRAW == pleaf->type) &&
 	       C2_L_PTINT == pleaf->ptntype))) {
 		c2_error("Pattern type incompatible with target type.");
 	}
@@ -1216,6 +1219,7 @@ static const char *c2h_dump_str_type(const c2_l_t *pleaf) {
 	case C2_L_TCARDINAL: return "c";
 	case C2_L_TSTRING: return "s";
 	case C2_L_TATOM: return "a";
+	case C2_L_TRAW: return "r";
 	case C2_L_TUNDEFINED: break;
 	}
 
@@ -1334,6 +1338,7 @@ static xcb_atom_t c2_get_atom_type(const c2_l_t *pleaf) {
 	case C2_L_TSTRING: return XCB_ATOM_STRING;
 	case C2_L_TATOM: return XCB_ATOM_ATOM;
 	case C2_L_TDRAWABLE: return XCB_ATOM_DRAWABLE;
+	case C2_L_TRAW: return XCB_ATOM_ANY;
 	default: assert(0); break;
 	}
 	unreachable();
